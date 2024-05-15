@@ -34,25 +34,23 @@ int main()
     // nebula variables
     Texture2D nebula = LoadTexture("textures/12_nebula_spritesheet.png");
 
-    AnimData nebData 
-    {
-        {0.0, 0.0, nebula.width/8, nebula.height/8}, // Rectangle rec
-        {windowDimensions[0], windowDimensions[1] - nebula.height/8}, // Vector2 pos
-        0, // int frame
-        1.0/12.0, // float updateTime
-        0 // float runningTime
-    };
+    AnimData nebule[3];
 
-    AnimData neb2Data 
+    for (int i = 0; i < 3; i++)
     {
-        {0.0, 0.0, nebula.width/8, nebula.height/8}, // Rectangle rec
-        {windowDimensions[0] + 300, windowDimensions[1] - nebula.height/8}, // Vector2 pos
-        0, // int frame
-        1.0/16.0, // float updateTime
-        0 // float runningTime
-    };
+        nebule[i].rec.x = 0.0;
+        nebule[i].rec.y = 0.0;
+        nebule[i].rec.width = nebula.width/8;
+        nebule[i].rec.height = nebula.height/8;
+        nebule[i].pos.y = windowDimensions[1] - nebula.height/8;
+        nebule[i].frame = 0.0;
+        nebule[i].updateTime = 1.0/12.0;
+        nebule[i].runningTime = 0.0;
+    }
 
-    AnimData nebule[2] = {nebData, neb2Data};
+    nebule[0].pos.x = windowDimensions[0];
+    nebule[1].pos.x = windowDimensions[0] + 300;
+    nebule[1].pos.x = windowDimensions[0] + 600;
 
     // nebula x velocity (pixels per second)
     int nebVel = -200;
