@@ -61,20 +61,22 @@ int main()
     Texture2D nebula = LoadTexture("textures/12_nebula_spritesheet.png");
 
     const int sizeOfNebulae = 6;
-    AnimData nebule[sizeOfNebulae];
+    AnimData nebulae[sizeOfNebulae];
 
     for (int i = 0; i < sizeOfNebulae; i++)
     {
-        nebule[i].rec.x = 0.0;
-        nebule[i].rec.y = 0.0;
-        nebule[i].rec.width = nebula.width / 8;
-        nebule[i].rec.height = nebula.height / 8;
-        nebule[i].pos.x = windowDimensions[0] + i * 300;
-        nebule[i].pos.y = windowDimensions[1] - nebula.height / 8;
-        nebule[i].frame = 0.0;
-        nebule[i].updateTime = 1.0 / 12.0;
-        nebule[i].runningTime = 0.0;
+        nebulae[i].rec.x = 0.0;
+        nebulae[i].rec.y = 0.0;
+        nebulae[i].rec.width = nebula.width / 8;
+        nebulae[i].rec.height = nebula.height / 8;
+        nebulae[i].pos.x = windowDimensions[0] + i * 300;
+        nebulae[i].pos.y = windowDimensions[1] - nebula.height / 8;
+        nebulae[i].frame = 0.0;
+        nebulae[i].updateTime = 1.0 / 12.0;
+        nebulae[i].runningTime = 0.0;
     }
+
+    float finishLine = nebulae[sizeOfNebulae - 1].pos.x;
 
     // nebula x velocity (pixels per second)
     int nebVel = -200;
@@ -170,8 +172,11 @@ int main()
         // update position of nebulea
         for (int i = 0; i < sizeOfNebulae; i++)
         {
-            nebule[i].pos.x += nebVel * dT;
+            nebulae[i].pos.x += nebVel * dT;
         }
+
+        // update finish line position
+        finishLine += nebVel * dT;
 
         // update position of scarfy based on velocity and time elapsed since last second
         scarfyData.pos.y += velocity * dT;
@@ -183,10 +188,10 @@ int main()
 
         for (int i = 0; i < sizeOfNebulae; i++)
         {
-            nebule[i] = UpdateAnimationData(nebule[i], dT, 7);
+            nebulae[i] = UpdateAnimationData(nebulae[i], dT, 7);
 
             // draw nebula
-            DrawTextureRec(nebula, nebule[i].rec, nebule[i].pos, WHITE);
+            DrawTextureRec(nebula, nebulae[i].rec, nebulae[i].pos, WHITE);
         }
 
         // draw scarfy
