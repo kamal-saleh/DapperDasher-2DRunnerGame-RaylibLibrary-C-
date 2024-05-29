@@ -60,7 +60,7 @@ int main()
     // nebula variables
     Texture2D nebula = LoadTexture("textures/12_nebula_spritesheet.png");
 
-    const int sizeOfNebulae = 6;
+    const int sizeOfNebulae = 3;
     AnimData nebulae[sizeOfNebulae];
 
     for (int i = 0; i < sizeOfNebulae; i++)
@@ -69,7 +69,7 @@ int main()
         nebulae[i].rec.y = 0.0;
         nebulae[i].rec.width = nebula.width / 8;
         nebulae[i].rec.height = nebula.height / 8;
-        nebulae[i].pos.x = windowDimensions[0] + i * 300;
+        nebulae[i].pos.x = windowDimensions[0] + i * 500;
         nebulae[i].pos.y = windowDimensions[1] - nebula.height / 8;
         nebulae[i].frame = 0.0;
         nebulae[i].updateTime = 1.0 / 12.0;
@@ -190,7 +190,7 @@ int main()
 
         for (AnimData nebula : nebulae)
         {
-            float pad = 50;
+            float pad = 70;
             Rectangle nebRec{
                 nebula.pos. x + pad,
                 nebula.pos.y + pad,
@@ -211,20 +211,29 @@ int main()
             }
         }
 
-        for (int i = 0; i < sizeOfNebulae; i++)
+        if (collision)
         {
-            nebulae[i] = UpdateAnimationData(nebulae[i], dT, 7);
-
-            // draw nebula
-            DrawTextureRec(nebula, nebulae[i].rec, nebulae[i].pos, WHITE);
+            DrawText("Game Over!", windowDimensions[0]/4, windowDimensions[1]/2, 40, RED);
         }
 
-        if (!collision)
+        else if (scarfyData.pos.x >= finishLine)
         {
+            DrawText("You Won!", windowDimensions[0]/4, windowDimensions[1]/2, 40, GREEN);
+        }
+        
+        else
+        {
+            for (int i = 0; i < sizeOfNebulae; i++)
+            {
+                nebulae[i] = UpdateAnimationData(nebulae[i], dT, 7);
+
+                // draw nebula
+                DrawTextureRec(nebula, nebulae[i].rec, nebulae[i].pos, WHITE);
+            }
+
             // draw scarfy
             DrawTextureRec(scarfy, scarfyData.rec, scarfyData.pos, WHITE);
         }
-        
 
         // stop drawing
         EndDrawing();
